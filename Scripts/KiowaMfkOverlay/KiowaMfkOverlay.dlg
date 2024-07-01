@@ -1,0 +1,1196 @@
+local releasedButtonColor = "0xffffff00" -- original is 0xffffff00. use 0x00ffffcc for debug
+
+local invisibleButtonSkin = {
+    ["params"] = {
+        ["name"] = "buttonSkinRedNew",
+        ["textWrapping"] = false,
+        ["useEllipsis"] = false,
+    },
+    ["states"] = {
+        ["hover"] = {
+            [1] = {
+                ["picture"] = {
+                    ["color"] = "0xffffff00",
+                    ["file"] =
+                    "dxgui\\skins\\skinme\\images\\buttons\\buttons(new)\\hover\\btngrayb.png",
+                    ["horzAlign"] = {
+                        ["type"] = "middle",
+                    },
+                    ["vertAlign"] = {
+                        ["type"] = "middle",
+                    },
+                },
+                ["text"] = {
+                    ["bkgColor"] = "0x00000000",
+                    ["blur"] = 0,
+                    ["blurColor"] = "0x00000000",
+                    ["color"] = "0xffffffff",
+                    ["font"] = "DejaVuLGCSansCondensed-Bold.ttf",
+                    ["fontSize"] = 12,
+                    ["horzAlign"] = {
+                        ["offset"] = 0,
+                        ["type"] = "middle",
+                    },
+                    ["lineHeight"] = 0,
+                    ["lineThroughColor"] = "0x00000000",
+                    ["lineThroughHeight"] = 1,
+                    ["shadowColor"] = "0x00000000",
+                    ["shadowOffset"] = {
+                        ["horz"] = 0,
+                        ["vert"] = 0,
+                    },
+                    ["vertAlign"] = {
+                        ["offset"] = 0,
+                        ["type"] = "middle",
+                    },
+                },
+            },
+        },
+        ["pressed"] = {
+            [1] = {
+                ["picture"] = {
+                    ["color"] = "0xffffff44", --0xffffff00
+                    ["file"] =
+                    "dxgui\\skins\\skinme\\images\\buttons\\buttons(new)\\pressed\\btngrayb.png",
+                    ["horzAlign"] = {
+                        ["type"] = "middle",
+                    },
+                    ["vertAlign"] = {
+                        ["type"] = "middle",
+                    },
+                },
+                ["text"] = {
+                    ["bkgColor"] = "0x00000000",
+                    ["blur"] = 0,
+                    ["blurColor"] = "0x00000000",
+                    ["color"] = "0xffffffff",
+                    ["font"] = "DejaVuLGCSansCondensed-Bold.ttf",
+                    ["fontSize"] = 12,
+                    ["horzAlign"] = {
+                        ["offset"] = 0,
+                        ["type"] = "middle",
+                    },
+                    ["lineHeight"] = 0,
+                    ["lineThroughColor"] = "0x00000000",
+                    ["lineThroughHeight"] = 1,
+                    ["shadowColor"] = "0x00000000",
+                    ["shadowOffset"] = {
+                        ["horz"] = 0,
+                        ["vert"] = 0,
+                    },
+                    ["vertAlign"] = {
+                        ["offset"] = 0,
+                        ["type"] = "middle",
+                    },
+                },
+            },
+        },
+        ["released"] = {
+            [1] = {
+                ["picture"] = {
+                    ["color"] = releasedButtonColor,
+                    ["file"] =
+                    "dxgui\\skins\\skinme\\images\\buttons\\buttons(new)\\released\\btngrayb.png",
+                    ["horzAlign"] = {
+                        ["type"] = "middle",
+                    },
+                    ["vertAlign"] = {
+                        ["type"] = "middle",
+                    },
+                },
+                ["text"] = {
+                    ["blur"] = 0,
+                    ["color"] = "0xffffffff",
+                    ["font"] = "DejaVuLGCSansCondensed-Bold.ttf",
+                    ["fontSize"] = 12,
+                    ["horzAlign"] = {
+                        ["type"] = "middle",
+                    },
+                    ["lineHeight"] = 0,
+                    ["shadowOffset"] = {
+                        ["horz"] = 0,
+                        ["vert"] = 0,
+                    },
+                    ["vertAlign"] = {
+                        ["type"] = "middle",
+                    },
+                },
+            },
+        },
+    },
+}
+
+local buttonHeight = 40 -- why does this not change?
+local buttonWidth = 38
+
+local colMarginNumPad = 50             -- x
+local columnSpacing = buttonWidth + 17 -- visual estimation
+local column1NumPad = colMarginNumPad
+local column2NumPad = columnSpacing + column1NumPad
+local column3NumPad = columnSpacing + column2NumPad
+local column4NumPad = columnSpacing + column3NumPad
+local column5NumPad = columnSpacing + column4NumPad
+
+local rowMarginNumPad = 24           -- y
+local rowSpacing = buttonHeight + 11 -- visual estimation
+local row1NumPad = rowMarginNumPad
+local row2NumPad = rowSpacing + row1NumPad
+local row3NumPad = rowSpacing + row2NumPad
+local row4NumPad = rowSpacing + row3NumPad
+local row5NumPad = rowSpacing + row4NumPad
+
+-- alpha keyboard
+local buttonHeightAlpha = 40 -- why does this not change?
+local buttonWidthAlpha = 38
+
+local colMarginAlpha = 50
+local alphaColumnSpacing = buttonWidthAlpha + 15
+local alphaColumn1 = colMarginAlpha -- make a solid number
+local alphaColumn2 = alphaColumnSpacing + alphaColumn1
+local alphaColumn3 = alphaColumnSpacing + alphaColumn2
+local alphaColumn4 = alphaColumnSpacing + alphaColumn3
+local alphaColumn5 = alphaColumnSpacing + alphaColumn4
+local alphaColumn6 = alphaColumnSpacing + alphaColumn5
+local alphaColumn7 = alphaColumnSpacing + alphaColumn6
+
+local rowMarginAlpha = 55 + row5NumPad
+local alphaRowSpacing = buttonHeightAlpha + 5
+local alphaRow1 = rowMarginAlpha -- make a solid number
+local alphaRow2 = alphaRowSpacing + alphaRow1
+local alphaRow3 = alphaRowSpacing + alphaRow2
+local alphaRow4 = alphaRowSpacing + alphaRow3
+
+
+local sliderVertOffset = -6
+local dialHorzOffset = 20 -- centered offset concerning the left justification of the dial
+
+dialog = {
+    ["type"] = "Window",
+    ["params"] = {
+        ["bounds"] = {
+            [1] = {
+                ["h"] = 470,
+                ["w"] = 458,
+                ["x"] = 0,
+                ["y"] = 0
+            }
+        },
+        ["draggable"] = true,
+        ["enabled"] = true,
+        ["hasCursor"] = true,
+        ["lockFlow"] = false,
+        ["modal"] = false,
+        ["offscreen"] = false,
+        ["resizable"] = true,
+        ["zOrder"] = 112,
+        ["text"] = " Kiowa MFK Overlay by Bailey"
+    },
+    ["skin"] = {
+        ["params"] = {
+            ["name"] = "windowSkin"
+        },
+        ["skins"] = {
+            ["header"] = {
+                ["skinData"] = {
+                    ["params"] = {
+                        ["hasCloseButton"] = false,
+                        ["insets"] = {
+                            ["bottom"] = 2,
+                            ["left"] = 2,
+                            ["right"] = 2,
+                            ["top"] = 2
+                        }
+                    },
+                    ["states"] = {
+                        ["released"] = {
+                            [1] = {
+                                ["bkg"] = {
+                                    ["center_center"] = "0x00000066"
+                                },
+                                ["text"] = {
+                                    ["color"] = "0xffffffaa"
+                                }
+                            },
+                            [2] = {
+                                ["bkg"] = {
+                                    ["center_center"] = "0x00000066"
+                                },
+                                ["text"] = {
+                                    ["color"] = "0xffffffaa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        ["states"] = {
+            ["released"] = {
+                [1] = {
+                    ["bkg"] = {
+                        ["center_center"] = "0x00000000"
+                    }
+                }
+            }
+        }
+    },
+    ["children"] = {
+        ["Box"] = {
+            ["children"] = {
+
+                --------------------
+                -- MKF Test --------
+                --------------------
+
+                ["pictureWidget"] = {
+                    ["params"] = {
+                        ["angle"] = 0,
+                        ["bounds"] = {
+                            ["h"] = 470,
+                            ["w"] = 458,
+                            ["x"] = 0,
+                            ["y"] = 0,
+                        },
+                        ["enabled"] = true,
+                        ["pivotPoint"] = {
+                            ["x"] = 0,
+                            ["y"] = 0,
+                        },
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 0,
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "staticSkin",
+                        },
+                        ["states"] = {
+                            ["released"] = {
+                                [1] = {
+                                    ["picture"] = {
+                                        ["color"] = "0xffffffff",
+                                        ["file"] =
+                                        "Scripts\\KIO-WA\\MFK-Full.png", --"C:\\Users\\Bailey\\Saved Games\\DCS.openbeta\\Scripts\\KIO-WA\\Images\\MFK-Full.png",
+                                        ["horzAlign"] = {
+                                            ["type"] = "stretch",        -- fill?
+                                        },
+
+                                        ["rect"] = {
+                                            --["x2"] = 470,
+
+                                        },
+                                        ["resizeToFill"] = false,
+                                        ["size"] = {
+                                            ["horz"] = 0,
+                                            ["vert"] = 0,
+                                        },
+                                        ["userTexSampler"] = 1,
+                                        ["vertAlign"] = {
+                                            ["type"] = "stretch",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    ["type"] = "Static",
+                },
+
+                --------------------
+                -- MKF Test End ----
+                --------------------
+
+                ------------------------------------------------
+                ------------------------------------------------
+                ["c1r1Button"] = { -- 1
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column1NumPad,
+                            ["y"] = row1NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c1r2Button"] = { -- 4
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column1NumPad,
+                            ["y"] = row2NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+
+                ["c1r3Button"] = { -- 7
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column1NumPad,
+                            ["y"] = row3NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["c1r4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column1NumPad,
+                            ["y"] = row4NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["c2r1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column2NumPad,
+                            ["y"] = row1NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c2r2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column2NumPad,
+                            ["y"] = row2NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c2r3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column2NumPad,
+                            ["y"] = row3NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c2r4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column2NumPad,
+                            ["y"] = row4NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c3r1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column3NumPad,
+                            ["y"] = row1NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c3r2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column3NumPad,
+                            ["y"] = row2NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c3r3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column3NumPad,
+                            ["y"] = row3NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["c3r4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column3NumPad,
+                            ["y"] = row4NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c4r4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column4NumPad,
+                            ["y"] = row4NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c4r3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column4NumPad,
+                            ["y"] = row3NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c4r2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column4NumPad,
+                            ["y"] = row2NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c4r1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column4NumPad,
+                            ["y"] = row1NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["c1r5Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column1NumPad,
+                            ["y"] = row5NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c2r5Button"] = { -- enter
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth * 2,
+                            ["x"] = column2NumPad + 10,
+                            ["y"] = row5NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["c4r5Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth,
+                            ["x"] = column4NumPad,
+                            ["y"] = row5NumPad,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+
+                ["alphaC1R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn1,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["alphaC2R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn2,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC3R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn3,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC4R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn4,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC5R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn5,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC6R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn6,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC7R1Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn7,
+                            ["y"] = alphaRow1,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+
+                -- alpha row 2
+                ["alphaC1R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn1,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["alphaC2R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn2,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC3R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn3,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC4R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn4,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC5R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn5,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC6R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn6,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC7R2Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn7,
+                            ["y"] = alphaRow2,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                -- alpha row 3
+                ["alphaC1R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn1,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["alphaC2R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn2,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC3R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn3,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC4R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn4,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC5R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn5,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC6R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn6,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC7R3Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn7,
+                            ["y"] = alphaRow3,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                -- alpha row 4
+                ["alphaC1R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn1,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
+                ["alphaC2R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn2,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC3R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn3,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC4R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn4,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC5R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn5,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC6R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn6,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ["alphaC7R4Button"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeightAlpha,
+                            ["w"] = buttonWidthAlpha,
+                            ["x"] = alphaColumn7,
+                            ["y"] = alphaRow4,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+                ----------------------------------------------------
+                ----------------------------------------------------
+            },
+            ["params"] = {
+                ["bounds"] = {
+                    [1] = {
+                        ["h"] = 500,
+                        ["w"] = 500,
+                        ["x"] = 0,
+                        ["y"] = 0
+                    }
+                },
+                ["enabled"] = true,
+                ["text"] = "",
+                ["tooltip"] = "",
+                ["visible"] = true,
+                ["zindex"] = 0
+            },
+            ["skin"] = {
+                ["params"] = {
+                    ["name"] = "panelSkin"
+                }
+            },
+            ["type"] = "Panel"
+        }
+    }
+}
