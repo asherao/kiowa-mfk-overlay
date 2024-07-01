@@ -129,7 +129,6 @@ local column1NumPad = colMarginNumPad
 local column2NumPad = columnSpacing + column1NumPad
 local column3NumPad = columnSpacing + column2NumPad
 local column4NumPad = columnSpacing + column3NumPad
-local column5NumPad = columnSpacing + column4NumPad
 
 local rowMarginNumPad = 24           -- y
 local rowSpacing = buttonHeight + 11 -- visual estimation

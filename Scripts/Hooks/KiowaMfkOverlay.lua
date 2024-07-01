@@ -7,6 +7,7 @@
 --]]
 
 --[[ Future Feature Goals:
+    - Text field for pressed buttons, like a calculator
 --]]
 
 --[[ Bugs:
@@ -101,6 +102,7 @@ local function loadKiowaMfkOverlay()
                 windowPosition   = { x = 50, y = 50 },   -- default values should be on screen for any resolution
                 windowSize       = { w = 458, h = 470 }, -- the window till I got something that looked ok
                 hideOnLaunch     = false,
+                buttonPressTime  = 100,
             }
             saveConfiguration()
         end
@@ -661,13 +663,13 @@ local function loadKiowaMfkOverlay()
                     isPressed = false
                     pleasePressMFK = false
                 end
-            else                  -- if there is no button pressed
-                local delay = 100 -- in milliseconds. can set at top or in config file
+            else -- if there is no button pressed
+                --local delay = 100 -- in milliseconds. can set at top or in config file
                 -- Push the button
                 local command = mfkButton + 3000
                 Export.GetDevice(14):performClickableAction(command, 1)
                 --Store the time when we will need to depress
-                whenToDepress = Export.LoGetModelTime() + (delay / 1000)
+                whenToDepress = Export.LoGetModelTime() + (config.buttonPressTime / 1000)
                 isPressed = true
             end
         end
