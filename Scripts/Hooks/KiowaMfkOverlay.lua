@@ -16,6 +16,15 @@
 --[[ Change Notes:
     v0.1
     - Initial Release
+    v0.2
+    - Left click "Kiowa MFK Overlay" to toggle app size
+    - Right click "Kiowa MFK Overlay" to hide app
+    - User toggle hotkey will be displayed at the top of the app, even if customized
+    - Enabled Config Settings
+    -- hideToggleHotkey: edit this to change the toggle hotkey
+    -- hideOnLaunch: toggle to hide the app on launch of DCS or not
+    -- appSize: 0 is default mode, 1 is mode with only numpad and logo
+    -- buttonPressTime: time in ms that the buttons are pressed by the program
 --]]
 
 local function loadKiowaMfkOverlay()
@@ -98,17 +107,16 @@ local function loadKiowaMfkOverlay()
         else
             log("Configuration not found, creating defaults...")
             config = {
-                hideToggleHotkey = "Ctrl+Shift+F11",     -- show/hide
-                windowPosition   = { x = 50, y = 50 },   -- default values should be on screen for any resolution
-                windowSize       = { w = 458, h = 470 }, -- the window till I got something that looked ok
-                hideOnLaunch     = false,
-                buttonPressTime  = 100,
+                hideToggleHotkey = "Ctrl+Shift+F11",   -- show/hide
+                windowPosition   = { x = 50, y = 50 }, -- default values should be on screen for any resolution
+                windowSize       = { w = 458, h = 491 },
+                hideOnLaunch     = false,              -- user editable
+                buttonPressTime  = 100,                -- time in ms that the buttons are pressed by the program. user editable.
+                appSize          = 0,                  -- 0 is default mode, 1 is mode with only numpad and logo
             }
             saveConfiguration()
         end
     end
-
-
 
     local function setVisible(b)
         window:setVisible(b)
@@ -141,18 +149,15 @@ local function loadKiowaMfkOverlay()
 --]]
 
         -- determine the bounds of the minimum and maximum window width and height
-        -- the minimum pair can be equal to the On/Off button
-        -- the maximum pair can be equal to the most columns and rows
-        --[[
-        local minHeight = 59
-        local minWidth  = 94
-        local maxHeight = 132
-        local maxWidth  = 411
+        local minHeight = 295
+        local minWidth  = 270
+        local maxHeight = 491
+        local maxWidth  = 458
         if h < minHeight then h = minHeight end
         if w < minWidth then w = minWidth end
         if h > maxHeight then h = maxHeight end
         if w > maxWidth then w = maxWidth end
---]]
+
         config.windowSize = { w = w, h = h }
         saveConfiguration()
     end
@@ -192,9 +197,7 @@ local function loadKiowaMfkOverlay()
         panel             = window.Box
         -- MFK testing
         StaticImage       = panel.pictureWidget
-        -- these are generically named so that a player/modder can
-        -- change the positions of the buttons easily
-        -- c1
+        LogoButton        = panel.logoButton
         Num1Button        = panel.c1r1Button
         Num4Button        = panel.c1r2Button
         Num7Button        = panel.c1r3Button
@@ -279,7 +282,7 @@ local function loadKiowaMfkOverlay()
             panel:setVisible(true)
             window:setHasCursor(true)
             --window:setText(' ' .. 'KiowaMfkOverlay by Bailey (' .. hotkey .. ')')
-            window:setText(' Kiowa MFK Overlay by Bailey')
+            window:setText(' Kiowa MFK Overlay by Bailey (' .. config.hideToggleHotkey .. ')')
 
             isHidden = false
         end
@@ -294,10 +297,46 @@ local function loadKiowaMfkOverlay()
                 end
             end
         )
+
         window:addSizeCallback(handleResize)
         window:addPositionCallback(handleMove)
         window:setVisible(true)
 
+        LogoButton:addMouseDownCallback(
+            function(self, x, y, button)
+                if button == 1 then -- resize toggle
+                    if config.appSize == 1 then
+                        local w           = 458
+                        local h           = 491
+
+                        config.windowSize = { w = w, h = h }
+
+                        window:setBounds(
+                            config.windowPosition.x,
+                            config.windowPosition.y,
+                            config.windowSize.w,
+                            config.windowSize.h
+                        )
+                        config.appSize = 0
+                        saveConfiguration()
+                    else -- appSize is 0
+                        local w           = 458
+                        local h           = 295
+                        config.windowSize = { w = w, h = h }
+                        window:setBounds(
+                            config.windowPosition.x,
+                            config.windowPosition.y,
+                            config.windowSize.w,
+                            config.windowSize.h
+                        )
+                        config.appSize = 1
+                        saveConfiguration()
+                    end
+                elseif button == 3 then -- hide
+                    hide()
+                end
+            end
+        )
         -- mfkButtons are from clickabledata.lua
 
         LeftButton:addMouseDownCallback(
@@ -615,6 +654,8 @@ local function loadKiowaMfkOverlay()
             isHidden = true
         end
 
+        window:setText(' Kiowa MFK Overlay by Bailey (' .. config.hideToggleHotkey .. ')')
+
         lfs.mkdir(lfs.writedir() .. [[Config\KiowaMfkOverlay\]])
         log("KiowaMfkOverlay window created")
     end
@@ -632,7 +673,7 @@ local function loadKiowaMfkOverlay()
         panel:setVisible(true)
         window:setHasCursor(true)
         --window:setText(' ' .. 'KiowaMfkOverlay by Bailey (' .. hotkey .. ')')
-        window:setText(' Kiowa MFK Overlay by Bailey')
+        window:setText(' Kiowa MFK Overlay by Bailey (' .. config.hideToggleHotkey .. ')')
 
         isHidden = false
     end
