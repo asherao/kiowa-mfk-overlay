@@ -144,7 +144,7 @@ local buttonWidthAlpha = 38
 
 local colMarginAlpha = 50
 local alphaColumnSpacing = buttonWidthAlpha + 15
-local alphaColumn1 = colMarginAlpha -- make a solid number
+local alphaColumn1 = colMarginAlpha
 local alphaColumn2 = alphaColumnSpacing + alphaColumn1
 local alphaColumn3 = alphaColumnSpacing + alphaColumn2
 local alphaColumn4 = alphaColumnSpacing + alphaColumn3
@@ -154,14 +154,14 @@ local alphaColumn7 = alphaColumnSpacing + alphaColumn6
 
 local rowMarginAlpha = 55 + row5NumPad
 local alphaRowSpacing = buttonHeightAlpha + 5
-local alphaRow1 = rowMarginAlpha -- make a solid number
+local alphaRow1 = rowMarginAlpha
 local alphaRow2 = alphaRowSpacing + alphaRow1
 local alphaRow3 = alphaRowSpacing + alphaRow2
 local alphaRow4 = alphaRowSpacing + alphaRow3
 
 
-local sliderVertOffset = -6
-local dialHorzOffset = 20 -- centered offset concerning the left justification of the dial
+local logoX = 290
+local logoY = 220
 
 dialog = {
     ["type"] = "Window",
@@ -302,6 +302,26 @@ dialog = {
 
                 ------------------------------------------------
                 ------------------------------------------------
+
+                ["logoButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = buttonHeight,
+                            ["w"] = buttonWidth * 3,
+                            ["x"] = logoX,
+                            ["y"] = logoY,
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "",
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 1,
+                    },
+                    ["skin"] = invisibleButtonSkin,
+                    ["type"] = "Button",
+                },
+
                 ["c1r1Button"] = { -- 1
                     ["params"] = {
                         ["bounds"] = {
