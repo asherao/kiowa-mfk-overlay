@@ -276,12 +276,12 @@ dialog = {
 
                                         ["rect"] = {
                                         },
-                                        ["resizeToFill"] = false,
+                                        ["resizeToFill"] = false, -- default false
                                         ["size"] = {
-                                            ["horz"] = 0,
-                                            ["vert"] = 0,
+                                            ["horz"] = 0,         -- default 0
+                                            ["vert"] = 0,         -- default 0
                                         },
-                                        ["userTexSampler"] = 1,
+                                        ["userTexSampler"] = 0,   -- no idea what this is for, default 1. can be , "$nil$"
                                         ["vertAlign"] = {
                                             ["type"] = "stretch",
                                         },
