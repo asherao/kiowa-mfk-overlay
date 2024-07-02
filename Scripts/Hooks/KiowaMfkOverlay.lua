@@ -281,7 +281,6 @@ local function loadKiowaMfkOverlay()
             window:setSkin(windowDefaultSkin)
             panel:setVisible(true)
             window:setHasCursor(true)
-            --window:setText(' ' .. 'KiowaMfkOverlay by Bailey (' .. hotkey .. ')')
             window:setText(' Kiowa MFK Overlay by Bailey (' .. config.hideToggleHotkey .. ')')
 
             isHidden = false
@@ -672,7 +671,6 @@ local function loadKiowaMfkOverlay()
         window:setSkin(windowDefaultSkin)
         panel:setVisible(true)
         window:setHasCursor(true)
-        --window:setText(' ' .. 'KiowaMfkOverlay by Bailey (' .. hotkey .. ')')
         window:setText(' Kiowa MFK Overlay by Bailey (' .. config.hideToggleHotkey .. ')')
 
         isHidden = false
