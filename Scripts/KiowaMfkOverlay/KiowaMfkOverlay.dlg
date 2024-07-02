@@ -270,7 +270,7 @@ dialog = {
                                     ["picture"] = {
                                         ["color"] = "0xffffffff",
                                         ["file"] =
-                                        "Scripts\\KIO-WA\\MFK-Full.png", --"C:\\Users\\Bailey\\Saved Games\\DCS.openbeta\\Scripts\\KIO-WA\\Images\\MFK-Full.png",
+                                        "Scripts\\KIO-WA\\MFK-Full.png",
                                         ["horzAlign"] = {
                                             ["type"] = "stretch",        -- fill?
                                         },
