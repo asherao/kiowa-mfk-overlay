@@ -269,15 +269,12 @@ dialog = {
                                 [1] = {
                                     ["picture"] = {
                                         ["color"] = "0xffffffff",
-                                        ["file"] =
-                                        "Scripts\\KIO-WA\\MFK-Full.png",
+                                        ["file"] = "",            -- this is set in the lua
                                         ["horzAlign"] = {
-                                            ["type"] = "stretch",        -- fill?
+                                            ["type"] = "stretch", -- fill? stretch.max.min.middle.["offset"] = 15,
                                         },
 
                                         ["rect"] = {
-                                            --["x2"] = 470,
-
                                         },
                                         ["resizeToFill"] = false,
                                         ["size"] = {
